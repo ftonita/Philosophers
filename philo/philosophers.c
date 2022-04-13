@@ -1,20 +1,4 @@
 #include "philosophers.h"
-
-int		ft_checker(t_philo **philo, t_args *p)
-{
-	int i = 0;
-	int k = 0;
-	while (i < p->number_of_philosophers)
-	{
-		k = 0;
-		k += pthread_mutex_lock(philo[i]->right_fork);
-		k += pthread_mutex_lock(philo[i]->left_fork);
-		printf("\nphilo %d k = %d\n", i + 1, k);
-		i++;
-	}
-	return (0);
-}
-
 void	*ft_philo_action(void *philo)
 {
 	t_philo *p = (void *)philo;
@@ -22,12 +6,12 @@ void	*ft_philo_action(void *philo)
 	return (NULL);
 }
 
-t_philo	**ft_philo_init(philo, p)
+int		ft_launch_all(t_philo *p, t_args *p)
 {
-	return (philo);
+	return (1);
 }
 
-t_philo	*ft_philo_malloc(t_philo *philo, t_args *p)
+t_philo	*ft_philo_init(t_philo *philo, t_args *p)
 {
 	int	i;
 
@@ -37,7 +21,15 @@ t_philo	*ft_philo_malloc(t_philo *philo, t_args *p)
 	i = 0;
 	while (i < p->number_of_philosophers)
 	{
-		
+		philo[i].id = i;
+		philo[i].left_fork = i;
+		philo[i].right_fork = (i + 1) % p->number_of_philosophers;
+		philo[i].t_wdead = 0;
+		philo[i].last_eat = 0;
+		philo[i].params = p;
+		philo[i].eat_amount = 0;
+		pthread_mutex_init(&p->m_forks[i], 0);
+		pthread_mutex_init(&philo[i].m_eat, 0);
 		i++;
 	}
 	return (philo);
@@ -82,6 +74,15 @@ int		ft_valid_args(char **argv, t_args *p)
 		p->eat_count = ft_atoi(argv[5]);
 	else
 		p->eat_count = -42;
+	p->m_forks = (t_mutex *) malloc(sizeof(t_mutex) * p->number_of_philosophers);
+	if (p->m_forks == NULL)
+	{
+		free(&p);
+		return (1);
+	}
+	pthread_mutex_init(&p->m_print, 0);
+	pthread_mutex_init(&p->m_stop, 0);
+	pthread_mutex_lock(&p->m_stop);
 	return (0);
 }
 
@@ -109,7 +110,6 @@ int		main(int argc, char **argv)
 	{
 		printf("Number: \t %d\nTime to die: \t %d\nTime to eat: \t %d\nTime to sleep: \t %d\nEat count: \t %d\n", p->number_of_philosophers, p->time_to_die, p->time_to_eat, p->time_to_sleep, p->eat_count);
 	}
-	philo = ft_philo_malloc(philo, p);
 	philo = ft_philo_init(philo, p);
 	//free_all(philo, p);
 	while (1)
