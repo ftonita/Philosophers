@@ -6,8 +6,17 @@ void	*ft_philo_action(void *philo)
 	return (NULL);
 }
 
-int		ft_launch_all(t_philo *p, t_args *p)
+int		ft_launch_all(t_philo *philo, t_args *p)
 {
+	int	i;
+
+	i = 0;
+	while (i < p->number_of_philosophers)
+	{
+		pthread_create();
+		
+		write(1, "Launch\n", 7);
+	}
 	return (1);
 }
 
