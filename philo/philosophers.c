@@ -1,23 +1,43 @@
 #include "philosophers.h"
-void	*ft_philo_action(void *philo)
+
+int	get_time(void)
 {
-	t_philo *p = (void *)philo;
-	printf("Philosopher #%d is active\n", p->id);
+	static struct timeval	time;
+	int						ret;
+
+	gettimeofday(&time, 0);
+	ret = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	return (ret);
+}
+
+void	*philo_action(void *philo)
+{
+	t_philo	*tmp;
+
+	tmp = (t_philo *)philo;
+	printf("philo %d started\n", tmp->id);
 	return (NULL);
 }
 
-int		ft_launch_all(t_philo *philo, t_args *p)
+int		launch_philo(t_philo *philo, int i)
 {
-	int	i;
-
-	i = 0;
-	while (i < p->number_of_philosophers)
+	while (i < philo->params->number_of_philosophers)
 	{
-		pthread_create();
-		
-		write(1, "Launch\n", 7);
+		pthread_t	thread;
+
+		if (pthread_create(&thread, 0, &philo_action, &philo[i]) || pthread_detach(thread))
+			return (write(1, "Error!\n", 7));
+		i += 2;
 	}
-	return (1);
+	return (0);
+}
+
+int		launch_all(t_philo *philo)
+{
+	philo->params->t_started = get_time();
+	if(launch_philo(philo, 1) || launch_philo(philo, 1))
+		return (1);
+	return (0);
 }
 
 t_philo	*ft_philo_init(t_philo *philo, t_args *p)
@@ -121,6 +141,8 @@ int		main(int argc, char **argv)
 	}
 	philo = ft_philo_init(philo, p);
 	//free_all(philo, p);
+	launch_all(philo);
+	pthread_mutex_lock(&philo->params->m_stop);
 	while (1)
 		;
 	return 0;

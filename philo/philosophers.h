@@ -15,6 +15,7 @@ typedef	struct s_args
 	int	time_to_die;
 	int	time_to_eat;
 	int	time_to_sleep;
+	int	t_started;
 	int	eat_count;
 	int	fed_amount;
 	int	last_msg;
