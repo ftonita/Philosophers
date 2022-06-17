@@ -1,0 +1,14 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/ftonita/Documents/42/Philosophers/philo_bonus'
+gcc -Wall -Wextra -Werror -g  -c philosophers.c -o philosophers.o -MD
+ 
+gcc -Wall -Wextra -Werror -g  -c valid+init.c -o valid+init.o -MD
+gcc -Wall -Wextra -Werror -g  -c utils.c -o utils.o -MD
+gcc -Wall -Wextra -Werror -g  -c launch.c -o launch.o -MD
+gcc -Wall -Wextra -Werror -g  -c routine_philo.c -o routine_philo.o -MD
+ 
+gcc -Wall -Wextra -Werror -g  -c checker.c -o checker.o -MD
+gcc -Wall -Wextra -Werror -g  -c free_funcs.c -o free_funcs.o -MD
+gcc philosophers.o valid+init.o utils.o launch.o routine_philo.o checker.o free_funcs.o -o philosophers_bonus
+make: Leaving directory `/Users/ftonita/Documents/42/Philosophers/philo_bonus'
+ 

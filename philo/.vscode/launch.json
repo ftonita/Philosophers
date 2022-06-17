@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": true,
+      "externalConsole": false,
+      "cwd": "/Users/ftonita/Documents/42/Philosophers/philo_normal",
+      "program": "/Users/ftonita/Documents/42/Philosophers/philo_normal/build/Debug/outDebug",
+      "MIMode": "gdb"
+    }
+  ]
+}

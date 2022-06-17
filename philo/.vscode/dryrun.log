@@ -1,0 +1,10 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/ftonita/Documents/42/Philosophers/philo'
+gcc -Wall -Wextra -Werror -g  -c philosophers.c -o philosophers.o
+gcc -Wall -Wextra -Werror -g  -c routine_philo.c -o routine_philo.o
+gcc -Wall -Wextra -Werror -g  -c utils.c -o utils.o
+gcc -Wall -Wextra -Werror -g  -c init.c -o init.o
+gcc -Wall -Wextra -Werror -g  -c custom.c -o custom.o
+gcc philosophers.o routine_philo.o utils.o init.o custom.o -o philosophers
+make: Leaving directory `/Users/ftonita/Documents/42/Philosophers/philo'
+ 
